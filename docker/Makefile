@@ -25,8 +25,6 @@ start:
 	@docker-compose -f ../docker-compose/services/visualizer.yml up -d
 	@echo "==> Starting sig-provider microservice"
 	@docker-compose -f ../docker-compose/services/sig-provider.yml up -d
-	@echo "==> Starting blockscout frontend"
-	@docker-compose -f ../docker-compose/services/frontend.yml up -d
 	@echo "==> Starting Nginx proxy"
 	@docker-compose -f ../docker-compose/services/nginx.yml up -d
 
