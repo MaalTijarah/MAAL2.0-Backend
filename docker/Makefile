@@ -10,7 +10,7 @@ STATS_CONTAINER_NAME := stats
 STATS_DB_CONTAINER_NAME := stats-db
 PROXY_CONTAINER_NAME := proxy
 PG_CONTAINER_NAME := postgres
-RELEASE_VERSION ?= '6.7.1'
+RELEASE_VERSION ?= '6.7.3'
 TAG := $(RELEASE_VERSION)-commit-$(shell git log -1 --pretty=format:"%h")
 STABLE_TAG := $(RELEASE_VERSION)
 
@@ -98,7 +98,7 @@ endif
 run: start
 
 docker-login: ## login to DockerHub with credentials found in env
-	docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+	docker login 
 
 # Docker release - build, tag and push the container
 pre-release: build publish ## Make a release by building and publishing the `{version}` ans `latest` tagged containers to hub

@@ -3,10 +3,12 @@ version: '3.9'
 services:
   backend:
     image: blockscout/${DOCKER_REPO:-blockscout}:${DOCKER_TAG:-latest}
+    # image: blockscout/blockscout:'6.7.3'-commit-ba5b08bef6
     pull_policy: always
     restart: always
     stop_grace_period: 5m
     container_name: 'backend'
+    # command: 'elixir --name backend@127.0.0.1 -S mix deps.clean'
     command: sh -c "bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
     extra_hosts:
       - 'host.docker.internal:host-gateway'

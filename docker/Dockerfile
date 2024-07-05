@@ -61,6 +61,8 @@ RUN cd apps/block_scout_web/assets/ && \
 
 RUN apk add --update git make 
 
+RUN mix phx.digest.clean
+
 RUN mix phx.digest
 
 RUN mkdir -p /opt/release \
