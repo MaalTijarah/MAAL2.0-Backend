@@ -25,13 +25,18 @@ start:
 	@docker-compose -f ../docker-compose/services/visualizer.yml up -d
 	@echo "==> Starting sig-provider microservice"
 	@docker-compose -f ../docker-compose/services/sig-provider.yml up -d
+	@echo "==> Starting blockscout frontend"
+	@docker-compose -f ../docker-compose/services/frontend.yml up -d
+	@echo "==> Starting Nginx proxy"
+	@docker-compose -f ../docker-compose/services/nginx.yml up -d
 
 BS_BACKEND_STARTED := $(shell docker ps --no-trunc --filter name=^/${BACKEND_CONTAINER_NAME}$  | grep ${BACKEND_CONTAINER_NAME})
+BS_FRONTEND_STARTED := $(shell docker ps --no-trunc --filter name=^/${FRONTEND_CONTAINER_NAME}$  | grep ${FRONTEND_CONTAINER_NAME})
 BS_STATS_STARTED := $(shell docker ps --no-trunc --filter name=^/${STATS_CONTAINER_NAME}$  | grep ${STATS_CONTAINER_NAME})
 BS_STATS_DB_STARTED := $(shell docker ps --no-trunc --filter name=^/${STATS_DB_CONTAINER_NAME}$  | grep ${STATS_DB_CONTAINER_NAME})
 BS_VISUALIZER_STARTED := $(shell docker ps --no-trunc --filter name=^/${VISUALIZER_CONTAINER_NAME}$  | grep ${VISUALIZER_CONTAINER_NAME})
 BS_SIG_PROVIDER_STARTED := $(shell docker ps --no-trunc --filter name=^/${SIG_PROVIDER_CONTAINER_NAME}$  | grep ${SIG_PROVIDER_CONTAINER_NAME})
-
+BS_PROXY_STARTED := $(shell docker ps --no-trunc --filter name=^/${PROXY_CONTAINER_NAME}$  | grep ${PROXY_CONTAINER_NAME})
 stop:
 ifdef BS_FRONTEND_STARTED
 	@echo "==> Stopping Blockscout frontend container."
