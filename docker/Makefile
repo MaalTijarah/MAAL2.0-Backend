@@ -36,13 +36,6 @@ BS_VISUALIZER_STARTED := $(shell docker ps --no-trunc --filter name=^/${VISUALIZ
 BS_SIG_PROVIDER_STARTED := $(shell docker ps --no-trunc --filter name=^/${SIG_PROVIDER_CONTAINER_NAME}$  | grep ${SIG_PROVIDER_CONTAINER_NAME})
 BS_PROXY_STARTED := $(shell docker ps --no-trunc --filter name=^/${PROXY_CONTAINER_NAME}$  | grep ${PROXY_CONTAINER_NAME})
 stop:
-ifdef BS_FRONTEND_STARTED
-	@echo "==> Stopping Blockscout frontend container."
-	@docker stop $(FRONTEND_CONTAINER_NAME) && docker rm -f $(FRONTEND_CONTAINER_NAME)
-	@echo "==> Blockscout frontend container stopped."
-else
-	@echo "==> Blockscout frontend container already stopped before."
-endif
 ifdef BS_BACKEND_STARTED
 	@echo "==> Stopping Blockscout backend container."
 	@docker stop $(BACKEND_CONTAINER_NAME)  && docker rm -f $(BACKEND_CONTAINER_NAME)
