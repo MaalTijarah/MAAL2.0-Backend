@@ -27,6 +27,8 @@ start:
 	@docker-compose -f ../docker-compose/services/sig-provider.yml up -d
 	@echo "==> Starting Nginx proxy"
 	@docker-compose -f ../docker-compose/services/nginx.yml up -d
+	@echo "==> Starting smart contract verifier"
+	@docker-compose -f ../docker-compose/services/smart-contract-verifier.yml up -d
 
 BS_BACKEND_STARTED := $(shell docker ps --no-trunc --filter name=^/${BACKEND_CONTAINER_NAME}$  | grep ${BACKEND_CONTAINER_NAME})
 BS_FRONTEND_STARTED := $(shell docker ps --no-trunc --filter name=^/${FRONTEND_CONTAINER_NAME}$  | grep ${FRONTEND_CONTAINER_NAME})
@@ -35,6 +37,7 @@ BS_STATS_DB_STARTED := $(shell docker ps --no-trunc --filter name=^/${STATS_DB_C
 BS_VISUALIZER_STARTED := $(shell docker ps --no-trunc --filter name=^/${VISUALIZER_CONTAINER_NAME}$  | grep ${VISUALIZER_CONTAINER_NAME})
 BS_SIG_PROVIDER_STARTED := $(shell docker ps --no-trunc --filter name=^/${SIG_PROVIDER_CONTAINER_NAME}$  | grep ${SIG_PROVIDER_CONTAINER_NAME})
 BS_PROXY_STARTED := $(shell docker ps --no-trunc --filter name=^/${PROXY_CONTAINER_NAME}$  | grep ${PROXY_CONTAINER_NAME})
+BS_SMART_CONTRACT_VERIFIER_STARTED := $(shell docker ps --no-trunc --filter name=^/${SMART_CONTRACT_VERIFIER_CONTAINER_NAME}$  | grep ${SMART_CONTRACT_VERIFIER_CONTAINER_NAME})
 stop:
 ifdef BS_BACKEND_STARTED
 	@echo "==> Stopping Blockscout backend container."
@@ -77,6 +80,13 @@ ifdef BS_PROXY_STARTED
 	@echo "==> Nginx proxy container stopped."
 else
 	@echo "==> Nginx proxy container already stopped before."
+endif
+ifdef BS_SMART_CONTRACT_VERIFIER_STARTED
+	@echo "==> Stopping smart contract verifier container."
+	@docker stop $(SMART_CONTRACT_VERIFIER_CONTAINER_NAME) && docker rm -f $(SMART_CONTRACT_VERIFIER_CONTAINER_NAME)
+	@echo "==> Smart contract verifier container stopped."
+else
+	@echo "==> Smart contract verifier container already stopped before."
 endif
 ifdef PG_STARTED
 	@echo "==> Stopping Postgres container."
