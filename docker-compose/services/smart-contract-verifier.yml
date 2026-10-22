@@ -2,10 +2,15 @@ version: '3.9'
 
 services:
   smart-contract-verifier:
-    image: ghcr.io/blockscout/smart-contract-verifier:${SMART_CONTRACT_VERIFIER_DOCKER_TAG:-latest}
+    image: ghcr.io/blockscout/smart-contract-verifier:${SMART_CONTRACT_VERIFIER_DOCKER_TAG:-v1.10.7}
     pull_policy: always
     platform: linux/amd64
     restart: always
     container_name: 'smart-contract-verifier'
     env_file:
       -  ../envs/common-smart-contract-verifier.env
+    volumes:
+      - sc-compilers:/tmp/solidity-compilers
+
+volumes:
+  sc-compilers:
