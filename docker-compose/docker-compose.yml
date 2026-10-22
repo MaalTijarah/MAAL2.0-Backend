@@ -19,10 +19,16 @@ services:
       file: ./services/db.yml
       service: db
 
+  smart-contract-verifier:
+    extends:
+      file: ./services/smart-contract-verifier.yml
+      service: smart-contract-verifier
+
   backend:
     depends_on:
       - db
       - redis-db
+      - smart-contract-verifier
     extends:
       file: ./services/backend.yml
       service: backend
